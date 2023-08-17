@@ -24,6 +24,15 @@ const signMessage = async ({ setError, message }) => {
   }
 };
 
+// Set a cookie with a long expiration date (e.g., 10 years from now)
+function setPermanentCookie(cookieName, cookieValue) {
+  const expirationDate = new Date();
+  expirationDate.setFullYear(expirationDate.getFullYear() + 10);
+
+  const cookieString = `${encodeURIComponent(cookieName)}=${encodeURIComponent(cookieValue)};expires=${expirationDate.toUTCString()};path=/`;
+  document.cookie = cookieString;
+}
+
 export default function SignMessage() {
   const resultBox = useRef();
   const [signatures, setSignatures] = useState([]);
@@ -39,8 +48,25 @@ export default function SignMessage() {
     });
     if (sig) {
       setSignatures([...signatures, sig]);
+      setPermanentCookie("signature", sig.signature);
+      setPermanentCookie("address", sig.address);
+      setPermanentCookie("message", sig.message);
     }
   };
+
+
+  const fetchData = async () => {
+    try {
+      fetch('http://localhost:8000/metadata/123')
+        .then(response => console.log(response))
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    } catch (error) {
+      console.error('Error fetching data123:', error);
+    }
+  };
+  
 
   return (
     <form className="m-4" onSubmit={handleSign}>
@@ -62,6 +88,13 @@ export default function SignMessage() {
           </div>
         </main>
         <footer className="p-4">
+          <button
+            onClick= {fetchData}
+            type="submit"
+            className="btn btn-primary submit-button focus:ring focus:outline-none w-full"
+          >
+            fetchData
+          </button>
           <button
             type="submit"
             className="btn btn-primary submit-button focus:ring focus:outline-none w-full"
@@ -93,4 +126,5 @@ export default function SignMessage() {
       </div>
     </form>
   );
+  
 }
