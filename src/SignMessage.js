@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { ethers } from "ethers";
 import ErrorMessage from "./ErrorMessage";
+import axios from 'axios';
 
 const signMessage = async ({ setError, message }) => {
   try {
