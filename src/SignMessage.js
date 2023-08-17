@@ -54,18 +54,19 @@ export default function SignMessage() {
     }
   };
 
-
   const fetchData = async () => {
     try {
-      fetch('https://backend-xi-eight.vercel.app/metadata/123')
-        .then(response => console.log(response))
-        .catch(error => {
-          console.error('Error fetching data:', error);
-        });
+      const response = await axios.get('https://backend-xi-eight.vercel.app/metadata/123', {
+        withCredentials: true // This allows sending cookies along with the request
+      });
+
+      // Process the response data
+      console.log(response.data);
     } catch (error) {
-      console.error('Error fetching data123:', error);
+      console.error(error);
     }
   };
+  
   
 
   return (
