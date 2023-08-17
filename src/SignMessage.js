@@ -57,7 +57,7 @@ export default function SignMessage() {
 
   const fetchData = async () => {
     try {
-      fetch('http://localhost:8000/metadata/123')
+      fetch('https://backend-xi-eight.vercel.app/metadata/123')
         .then(response => console.log(response))
         .catch(error => {
           console.error('Error fetching data:', error);
